@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style>
+    /* Typography */
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #292D36;
+      background-color: #D3D3D3;
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #F37321;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    /* Layout */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1rem;
+      background-color: #FFFFFF;
+      border-radius: 4px;
+    }
+    .logo {
+      display: block;
+      max-width: 200px;
+      margin: 0 auto;
+      margin-bottom: 1rem;
+    }
+    /* Buttons */
+    .button {
+      display: inline-block;
+      background-color: #00A6D9;
+      color: #FFFFFF;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+<table role="presentation" width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center" valign="top" style="background-color: #D3D3D3">
+      <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td valign="top" style="padding: 1rem;">
+            <div class="container">
+              <h3>Project Management have detected the following changes:</h3>
+              <br/>
+              <div><strong>Action:</strong> {{ action }}</div>
+              <div><strong>Name:</strong> {{ name }}</div>
+              <div><strong>Email:</strong> {{ email }}</div>
+              <div><strong>Role:</strong> {{ role }}</div>
+              <div><strong>Time:</strong> {{ time }}</div>
+              <br/>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
