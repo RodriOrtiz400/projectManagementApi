@@ -19,28 +19,22 @@ import { Task } from './entities/task.entity';
 import { PaginationDto } from '../db/dto/pagination.dto';
 import { Auth } from '../auth/decorators';
 import { Role } from '../auth/interface/role';
-import { ApiBearerAuth, ApiQuery, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExtraModels, ApiQuery, ApiTags, getSchemaPath } from '@nestjs/swagger';
 
 @ApiTags('task')
+@ApiExtraModels(CreateTaskDto)
+@ApiExtraModels(UpdateTaskDto)
+@ApiExtraModels(AssignTaskDto)
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a task' })
-  @ApiBody({
-    schema: {
-      example: { $ref: getSchemaPath(CreateTaskDto) },
-      type: 'JSON',
-    },
-  })
+  @ApiBody({ schema: { $ref: getSchemaPath(CreateTaskDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(CreateTaskDto) },
-      type: 'JSON',
-    },
-  })
+    schema: { $ref: getSchemaPath(CreateTaskDto) } })
   @ApiResponse({
     status: 403,
     description: 'Role allowed: "Project Manager". Your user does not have permissions to perform this action.',
@@ -58,7 +52,7 @@ export class TaskController {
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
-      items: { $ref: getSchemaPath(Task) },
+      items: { $ref: getSchemaPath(CreateTaskDto) },
       type: 'array',
     },
   })
@@ -79,11 +73,7 @@ export class TaskController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(Task) },
-      type: 'JSON',
-    },
-  })
+    schema: { $ref: getSchemaPath(CreateTaskDto) } })
   @HttpCode(HttpStatus.OK)
   findOneById(@Param('id') id: string) {
     return this.taskService.findOneById(id);
@@ -97,18 +87,10 @@ export class TaskController {
     description: 'The unique identifier of the task',
     required: true,
   })
-  @ApiBody({
-    schema: {
-      example: { $ref: getSchemaPath(UpdateTaskDto) },
-      type: 'JSON',
-    },
-  })
+  @ApiBody({ schema: { $ref: getSchemaPath(UpdateTaskDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(Task) },
-      type: 'JSON',
-    },
+    schema: { $ref: getSchemaPath(CreateTaskDto) }
   })
   @ApiResponse({
     status: 403,
@@ -134,10 +116,7 @@ export class TaskController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(Task) },
-      type: 'JSON',
-    },
+    schema: { $ref: getSchemaPath(CreateTaskDto) }
   })
   @ApiResponse({
     status: 403,
@@ -170,7 +149,7 @@ export class TaskController {
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
-      items: { $ref: getSchemaPath(Task) },
+      items: { $ref: getSchemaPath(CreateTaskDto) },
       type: 'array',
     },
   })
@@ -190,18 +169,10 @@ export class TaskController {
     description: 'The unique identifier of the task',
     required: true,
   })
-  @ApiBody({
-    schema: {
-      example: { $ref: getSchemaPath(AssignTaskDto) },
-      type: 'JSON',
-    },
-  })
+  @ApiBody({ schema: { $ref: getSchemaPath(AssignTaskDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(Task) },
-      type: 'JSON',
-    },
+    schema:  { $ref: getSchemaPath(CreateTaskDto) }
   })
   @ApiResponse({
     status: 403,

@@ -3,9 +3,11 @@ import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { PaginationDto } from '../../db/dto/pagination.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { ApiExtraModels, ApiOperation, ApiQuery, ApiResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { CreateUserDto } from './dto';
 
 @ApiTags('user')
+@ApiExtraModels(CreateUserDto)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -20,8 +22,10 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
-      items: { $ref: getSchemaPath(User) },
       type: 'array',
+      items: {
+          $ref: getSchemaPath(CreateUserDto),
+      },
     },
   })
   @HttpCode(HttpStatus.OK)

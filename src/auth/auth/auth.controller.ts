@@ -5,9 +5,11 @@ import { AuthService } from './auth.service';
 import { CreateUserDto, CredentialsDto } from '../user/dto';
 import { EmailLoggerService } from '../../email/email-logger/email-logger.service';
 import { UserCreated } from '../user/interface/user-created.interface';
-import { getSchemaPath } from '@nestjs/swagger';
+import { ApiExtraModels, getSchemaPath } from '@nestjs/swagger';
 
 @ApiTags('auth')
+@ApiExtraModels(CredentialsDto)
+@ApiExtraModels(CreateUserDto)
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -17,14 +19,7 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({ summary: 'Login a user' })
-  @ApiBody({
-    schema: {
-      example: {
-        $ref: getSchemaPath(CredentialsDto)
-      },
-      type: 'JSON',
-    },
-  })
+  @ApiBody({ schema: { $ref: getSchemaPath(CredentialsDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
@@ -40,23 +35,10 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Create a user' })
-  @ApiBody({
-    schema: {
-      example: {
-        $ref: getSchemaPath(CreateUserDto)
-      },
-      type: 'JSON',
-    },
-  })
+  @ApiBody({ schema: { $ref: getSchemaPath(CreateUserDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: {
-        name: 'string',
-        email: 'string',
-        role: 'string',      },
-      type: 'JSON',
-    },
+    schema: { $ref: getSchemaPath(CreateUserDto) }
   })
   @HttpCode(HttpStatus.OK)
   @Post('register')
