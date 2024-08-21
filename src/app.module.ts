@@ -17,7 +17,6 @@ import { EmailModule } from './email/email.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    //   MongooseModule.forRoot('mongodb://db:27017/challenge'), // Poner en una ENV
     MongooseModule.forRoot('mongodb://localhost:27017/challenge'), // TODO move to ENV var and implement forRootAsync
     ProjectModule,
     TaskModule,
