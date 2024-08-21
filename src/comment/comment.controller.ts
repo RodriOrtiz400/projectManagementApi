@@ -17,14 +17,24 @@ export class CommentController {
   @Post()@ApiOperation({ summary: 'Create a comment in a Task or Project' })
   @ApiBody({
     schema: {
-      example: { $ref: getSchemaPath(CreateCommentDto) },
+      example: {
+        text: 'string',
+        taskId : 'string',
+        projectId : 'string',
+        userId : 'string',
+      },
       type: 'JSON',
     },
   })
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
-      example: { $ref: getSchemaPath(CreateCommentDto) },
+      example: {
+        text: 'string',
+        taskId : 'string',
+        projectId : 'string',
+        userId : 'string',
+      },
       type: 'JSON',
     },
   })
@@ -39,11 +49,21 @@ export class CommentController {
 
   @Get()
   @ApiOperation({ summary: 'Get all comments' })
-  @ApiQuery({ schema:{ $ref: getSchemaPath(PaginationDto) } })
+  @ApiQuery({
+    required: false,
+    schema:{ $ref: getSchemaPath(PaginationDto) } })
+  @ApiBearerAuth('access_token')
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
-      items: { $ref: getSchemaPath(Comment) },
+      items: {
+        example: {
+          text: 'string',
+          task: 'string',
+          project: 'string',
+          createdBy: 'string',
+        }
+      },
       type: 'array',
     },
   })
@@ -51,7 +71,6 @@ export class CommentController {
     status: 403,
     description: 'Role allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
   })
-  @ApiBearerAuth('access_token')
   @HttpCode(HttpStatus.OK)
   @Auth(Role.Developer, Role.ProjectManager, Role.TeamLeader)
   async findAll(@Query() params: PaginationDto): Promise<Comment[]> {
