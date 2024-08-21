@@ -6,7 +6,6 @@ import { PaginationDto } from '../../db/dto/pagination.dto';
 import { User } from './entities/user.entity';
 import { PasswordHelper } from '../helper/password.helper';
 import { CreateUserDto } from './dto';
-import { UserCreated } from './interface/user-created.interface';
 
 @Injectable()
 export class UserService {

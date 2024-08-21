@@ -12,6 +12,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger/dist/decorators';
+import { ApiBearerAuth, ApiExtraModels, ApiQuery, ApiTags, getSchemaPath } from '@nestjs/swagger';
 
 import { TaskService } from './task.service';
 import { CreateTaskDto, UpdateTaskDto, AssignTaskDto } from './dto';
@@ -19,7 +20,6 @@ import { Task } from './entities/task.entity';
 import { PaginationDto } from '../db/dto/pagination.dto';
 import { Auth } from '../auth/decorators';
 import { Role } from '../auth/interface/role';
-import { ApiBearerAuth, ApiExtraModels, ApiQuery, ApiTags, getSchemaPath } from '@nestjs/swagger';
 
 @ApiTags('task')
 @ApiExtraModels(CreateTaskDto)
@@ -34,7 +34,8 @@ export class TaskController {
   @ApiBody({ schema: { $ref: getSchemaPath(CreateTaskDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateTaskDto) } })
+    schema: { $ref: getSchemaPath(CreateTaskDto) }
+  })
   @ApiResponse({
     status: 403,
     description: 'Role allowed: "Project Manager". Your user does not have permissions to perform this action.',
@@ -73,7 +74,8 @@ export class TaskController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateTaskDto) } })
+    schema: { $ref: getSchemaPath(CreateTaskDto) }
+  })
   @HttpCode(HttpStatus.OK)
   findOneById(@Param('id') id: string) {
     return this.taskService.findOneById(id);
