@@ -14,10 +14,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { EmailLoggerService } from '../email/email-logger/email-logger.service';
 
 @Module({
-  controllers: [
-    AuthController,
-    UserController
-  ],
+  controllers: [AuthController, UserController],
   providers: [
     AuthService,
     UserService,
@@ -35,19 +32,19 @@ import { EmailLoggerService } from '../email/email-logger/email-logger.service';
       imports: [],
       inject: [],
       useFactory: () => ({
-          secret: process.env.JWT_SECRET_KEY,
-          signOptions: {
-            expiresIn: '2h',
-          }
+        secret: process.env.JWT_SECRET_KEY,
+        signOptions: {
+          expiresIn: '2h',
+        },
       }),
-    })
+    }),
   ],
   exports: [
     MongooseModule,
     JwtStrategy,
     PassportModule,
     JwtModule,
-    PasswordHelper
+    PasswordHelper,
   ],
 })
 export class AuthModule {}

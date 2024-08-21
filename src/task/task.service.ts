@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -29,7 +33,8 @@ export class TaskService {
 
   async findAll(params: PaginationDto): Promise<Task[]> {
     const { limit = 10, skip = 0 } = params;
-    return await this.taskModel.find()
+    return await this.taskModel
+      .find()
       .limit(limit)
       .skip(skip)
       .sort({ status: 1 })
@@ -40,13 +45,16 @@ export class TaskService {
   }
 
   async findOneById(id: string): Promise<Task> {
-    return await this.taskModel.findById(id)
+    return await this.taskModel
+      .findById(id)
       .populate('assignTo', 'name')
       .exec();
   }
 
   async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
-    const task = await this.taskModel.findByIdAndUpdate(id, updateTaskDto, { new: true }).exec();
+    const task = await this.taskModel
+      .findByIdAndUpdate(id, updateTaskDto, { new: true })
+      .exec();
     if (!task) {
       throw new NotFoundException(`Task with id ${id} not found`);
     }
@@ -54,17 +62,22 @@ export class TaskService {
   }
 
   async delete(id: string): Promise<Task> {
-    const task =  await this.taskModel.findByIdAndDelete(id).exec();
+    const task = await this.taskModel.findByIdAndDelete(id).exec();
     if (!task) {
       throw new NotFoundException(`Task with id ${id} not found`);
     }
     return task;
   }
 
-  async findByUserAndStatus(userId: string, status: string, params: PaginationDto): Promise<Task[]> {
+  async findByUserAndStatus(
+    userId: string,
+    status: string,
+    params: PaginationDto,
+  ): Promise<Task[]> {
     const { limit = 10, skip = 0 } = params;
 
-    return await this.taskModel.find({ assignTo: userId, status })
+    return await this.taskModel
+      .find({ assignTo: userId, status })
       .limit(limit)
       .skip(skip)
       .exec();

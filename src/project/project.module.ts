@@ -15,8 +15,6 @@ import { User, UserSchema } from '../auth/user/entities/user.entity';
       { name: User.name, schema: UserSchema },
     ]),
   ],
-  exports: [
-    MongooseModule,
-  ],
+  exports: [MongooseModule],
 })
 export class ProjectModule {}

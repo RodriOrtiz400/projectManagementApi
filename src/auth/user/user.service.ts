@@ -17,7 +17,8 @@ export class UserService {
 
   async findAll(params: PaginationDto): Promise<User[]> {
     const { limit = 10, skip = 0 } = params;
-    return await this.userModel.find()
+    return await this.userModel
+      .find()
       .limit(limit)
       .skip(skip)
       .sort({ name: 1 })
@@ -42,10 +43,11 @@ export class UserService {
     try {
       const userCreated: User = await this.userModel.create({
         ...userData,
-        password: hash
+        password: hash,
       });
 
-      const { password, _id, __v, ...shortUserCreated } = userCreated.toObject();
+      const { password, _id, __v, ...shortUserCreated } =
+        userCreated.toObject();
 
       return shortUserCreated;
     } catch (error) {

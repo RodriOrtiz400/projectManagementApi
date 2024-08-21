@@ -37,7 +37,10 @@ describe.only('AuthController', () => {
 
   describe('login', () => {
     it('should return a token', async () => {
-      const credentials: CredentialsDto = { email: 'test@example.com', password: 'password' };
+      const credentials: CredentialsDto = {
+        email: 'test@example.com',
+        password: 'password',
+      };
       const result = { access_token: 'test-token' };
 
       jest.spyOn(authService, 'login').mockResolvedValue(result);
@@ -48,11 +51,20 @@ describe.only('AuthController', () => {
 
   describe('create', () => {
     it('should create a new user and return it', async () => {
-      const userDto: CreateUserDto = { email: 'test@example.com', password: 'password' };
-      const newUser: UserCreated = { email: 'test@example.com', name: 'Test User', role: 'user' };
+      const userDto: CreateUserDto = {
+        email: 'test@example.com',
+        password: 'password',
+      };
+      const newUser: UserCreated = {
+        email: 'test@example.com',
+        name: 'Test User',
+        role: 'user',
+      };
 
       jest.spyOn(authService, 'create').mockResolvedValue(newUser);
-      jest.spyOn(emailService, 'sendNotificationEmail').mockResolvedValue(undefined);
+      jest
+        .spyOn(emailService, 'sendNotificationEmail')
+        .mockResolvedValue(undefined);
 
       expect(await authController.create(userDto)).toBe(newUser);
       expect(emailService.sendNotificationEmail).toHaveBeenCalledWith({

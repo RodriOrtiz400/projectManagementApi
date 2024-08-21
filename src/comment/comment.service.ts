@@ -50,7 +50,7 @@ export class CommentService {
     const id = taskId || projectId;
 
     await model.findByIdAndUpdate(id, {
-      $push: { comments: newComment.id }
+      $push: { comments: newComment.id },
     });
 
     return newComment;
@@ -58,7 +58,8 @@ export class CommentService {
 
   async findAll(params: PaginationDto): Promise<Comment[]> {
     const { limit = 10, skip = 0 } = params;
-    return await this.commentModel.find()
+    return await this.commentModel
+      .find()
       .limit(limit)
       .skip(skip)
       .select('-__v')

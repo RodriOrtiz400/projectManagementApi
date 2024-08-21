@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -30,24 +34,28 @@ export class ProjectService {
 
   async findAll(params: PaginationDto): Promise<Project[]> {
     const { limit = 10, skip = 0 } = params;
-    return await this.projectModel.find()
+    return await this.projectModel
+      .find()
       .limit(limit)
       .skip(skip)
       .sort({ status: 1 })
       .select('-__v')
       .populate('assignTo', 'name')
       .populate('comments', '-__v -createdAt -updatedAt')
-      .exec( );
+      .exec();
   }
 
   async findOneById(id: string): Promise<Project> {
-    return await this.projectModel.findById(id)
+    return await this.projectModel
+      .findById(id)
       .populate('assignTo', 'name')
       .exec();
   }
 
   async update(id: string, updateProjectDto: UpdateProjectDto) {
-    const project = await this.projectModel.findByIdAndUpdate(id, updateProjectDto, { new: true }).exec();
+    const project = await this.projectModel
+      .findByIdAndUpdate(id, updateProjectDto, { new: true })
+      .exec();
     if (!project) {
       throw new NotFoundException(`Project with id ${id} not found`);
     }
@@ -55,23 +63,31 @@ export class ProjectService {
   }
 
   async delete(id: string) {
-    const project =  await this.projectModel.findByIdAndDelete(id).exec();
+    const project = await this.projectModel.findByIdAndDelete(id).exec();
     if (!project) {
       throw new NotFoundException(`Project with id ${id} not found`);
     }
     return project;
   }
 
-  async findByUserAndStatus(userId: string, status: string, params: PaginationDto): Promise<Task[]> {
+  async findByUserAndStatus(
+    userId: string,
+    status: string,
+    params: PaginationDto,
+  ): Promise<Task[]> {
     const { limit = 10, skip = 0 } = params;
 
-    return await this.projectModel.find({ assignTo: userId, status: status })
+    return await this.projectModel
+      .find({ assignTo: userId, status: status })
       .limit(limit)
       .skip(skip)
       .exec();
   }
 
-  async assignProject(id: string, assignProject: AssignProjectDto): Promise<Project> {
+  async assignProject(
+    id: string,
+    assignProject: AssignProjectDto,
+  ): Promise<Project> {
     const { userId } = assignProject;
     const project = await this.findOneById(id);
     if (!project) {

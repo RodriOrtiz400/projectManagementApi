@@ -1,7 +1,12 @@
-import { IsNotEmpty, IsOptional, IsMongoId, IsString, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsMongoId,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class CreateCommentDto {
-
   @IsString()
   @MinLength(3)
   @IsNotEmpty()

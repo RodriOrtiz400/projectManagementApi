@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { User } from '../../auth/user/entities/user.entity';
-import { Comment } from '../../comment/entities/comment.entity';
+
 import { Status } from '../../interfaces';
 
 @Schema()

@@ -11,8 +11,19 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger/dist/decorators';
-import { ApiBearerAuth, ApiExtraModels, ApiQuery, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+} from '@nestjs/swagger/dist/decorators';
+import {
+  ApiBearerAuth,
+  ApiExtraModels,
+  ApiQuery,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 
 import { TaskService } from './task.service';
 import { CreateTaskDto, UpdateTaskDto, AssignTaskDto } from './dto';
@@ -34,11 +45,12 @@ export class TaskController {
   @ApiBody({ schema: { $ref: getSchemaPath(CreateTaskDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateTaskDto) }
+    schema: { $ref: getSchemaPath(CreateTaskDto) },
   })
   @ApiResponse({
     status: 403,
-    description: 'Role allowed: "Project Manager". Your user does not have permissions to perform this action.',
+    description:
+      'Role allowed: "Project Manager". Your user does not have permissions to perform this action.',
   })
   @ApiBearerAuth('access_token')
   @HttpCode(HttpStatus.OK)
@@ -49,7 +61,7 @@ export class TaskController {
 
   @Get()
   @ApiOperation({ summary: 'Get all tasks' })
-  @ApiQuery({ schema:{ $ref: getSchemaPath(PaginationDto) } })
+  @ApiQuery({ schema: { $ref: getSchemaPath(PaginationDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
@@ -58,9 +70,7 @@ export class TaskController {
     },
   })
   @HttpCode(HttpStatus.OK)
-  findAll(
-    @Query() params: PaginationDto,
-  ): Promise<Task[]> {
+  findAll(@Query() params: PaginationDto): Promise<Task[]> {
     return this.taskService.findAll(params);
   }
 
@@ -74,7 +84,7 @@ export class TaskController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateTaskDto) }
+    schema: { $ref: getSchemaPath(CreateTaskDto) },
   })
   @HttpCode(HttpStatus.OK)
   findOneById(@Param('id') id: string) {
@@ -92,19 +102,17 @@ export class TaskController {
   @ApiBody({ schema: { $ref: getSchemaPath(UpdateTaskDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateTaskDto) }
+    schema: { $ref: getSchemaPath(CreateTaskDto) },
   })
   @ApiResponse({
     status: 403,
-    description: 'Roles allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
+    description:
+      'Roles allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
   })
   @ApiBearerAuth('access_token')
   @HttpCode(HttpStatus.OK)
   @Auth(Role.Developer, Role.ProjectManager, Role.TeamLeader)
-  update(
-    @Param('id') id: string,
-    @Body() updateTaskDto: UpdateTaskDto
-  ) {
+  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(id, updateTaskDto);
   }
 
@@ -118,11 +126,12 @@ export class TaskController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateTaskDto) }
+    schema: { $ref: getSchemaPath(CreateTaskDto) },
   })
   @ApiResponse({
     status: 403,
-    description: 'Roles allowed: "Project Manager", "Team Leader". Your user does not have permissions to perform this action.',
+    description:
+      'Roles allowed: "Project Manager", "Team Leader". Your user does not have permissions to perform this action.',
   })
   @ApiBearerAuth('access_token')
   @HttpCode(HttpStatus.OK)
@@ -132,9 +141,11 @@ export class TaskController {
   }
 
   @Get(':userId/status/:status')
-  @ApiOperation({ summary: 'Get all tasks assigned to a user with an specific status' })
+  @ApiOperation({
+    summary: 'Get all tasks assigned to a user with an specific status',
+  })
   @ApiQuery({
-    schema:{ $ref: getSchemaPath(PaginationDto) }
+    schema: { $ref: getSchemaPath(PaginationDto) },
   })
   @ApiParam({
     name: 'userId',
@@ -158,8 +169,8 @@ export class TaskController {
   findByUserAndStatus(
     @Query() params: PaginationDto,
     @Param('userId') userId: string,
-    @Param('status') status: string
-  ): Promise<Task[]>  {
+    @Param('status') status: string,
+  ): Promise<Task[]> {
     return this.taskService.findByUserAndStatus(userId, status, params);
   }
 
@@ -174,15 +185,19 @@ export class TaskController {
   @ApiBody({ schema: { $ref: getSchemaPath(AssignTaskDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema:  { $ref: getSchemaPath(CreateTaskDto) }
+    schema: { $ref: getSchemaPath(CreateTaskDto) },
   })
   @ApiResponse({
     status: 403,
-    description: 'Roles allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
+    description:
+      'Roles allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
   })
   @ApiBearerAuth('access_token')
   @Auth(Role.Developer, Role.ProjectManager, Role.TeamLeader)
-  async assignTask(@Param('id') id: string, @Body() assignTask: AssignTaskDto): Promise<Task> {
+  async assignTask(
+    @Param('id') id: string,
+    @Body() assignTask: AssignTaskDto,
+  ): Promise<Task> {
     return this.taskService.assignTask(id, assignTask);
   }
 }

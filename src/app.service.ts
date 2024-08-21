@@ -11,11 +11,10 @@ import { initialProjects, initialTasks } from './db/initial-data';
 import { initialUsers } from './db/initial-data/initial-users';
 import { PasswordHelper } from './auth/helper/password.helper';
 
-
 @Injectable()
 export class AppService {
-
-  constructor( // All in this constructor it's just to use the setInitialData function to have valid data to interact.
+  constructor(
+    // All in this constructor it's just to use the setInitialData function to have valid data to interact.
     @InjectModel(Task.name)
     private taskModel: Model<Task>,
     @InjectModel(Project.name)
@@ -38,18 +37,20 @@ export class AppService {
       await Promise.all([
         this.taskModel.deleteMany({}),
         this.projectModel.deleteMany({}),
-        this.userModel.deleteMany({})
+        this.userModel.deleteMany({}),
       ]);
 
-      const usersWithHashedPasswords = await Promise.all(initialUsers.map(async (user) => {
-        user.password = await this.preparePass(user.password);
-        return user;
-      }));
+      const usersWithHashedPasswords = await Promise.all(
+        initialUsers.map(async (user) => {
+          user.password = await this.preparePass(user.password);
+          return user;
+        }),
+      );
 
       await Promise.all([
         this.taskModel.insertMany(initialTasks),
         this.projectModel.insertMany(initialProjects),
-        this.userModel.insertMany(usersWithHashedPasswords)
+        this.userModel.insertMany(usersWithHashedPasswords),
       ]);
 
       return 'Data has been created successfully.';
