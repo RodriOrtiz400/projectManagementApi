@@ -14,7 +14,7 @@ import { PasswordHelper } from './auth/helper/password.helper';
 @Injectable()
 export class AppService {
   constructor(
-    // All in this constructor it's just to use the setInitialData function to have valid data to interact.
+    // Everything in this constructor it's just to use the setInitialData function to have valid data to interact.
     @InjectModel(Task.name)
     private taskModel: Model<Task>,
     @InjectModel(Project.name)
