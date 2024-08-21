@@ -7,39 +7,35 @@ import {
   Param,
   Delete,
   Query,
-  Put, HttpStatus, HttpCode,
+  Put,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
-
-import { ProjectService } from './project.service';
-import { CreateProjectDto } from './dto';
-import { UpdateProjectDto } from './dto';
-import { PaginationDto } from '../db/dto/pagination.dto';
-import { Project } from './entities/project.entity';
-import { AssignProjectDto } from './dto';
-import { Role } from '../auth/interface/role';
-import { Auth } from '../auth/decorators';
-import { ApiBearerAuth, ApiQuery, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExtraModels, ApiQuery, ApiTags, getSchemaPath } from '@nestjs/swagger';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger/dist/decorators';
 
+import { ProjectService } from './project.service';
+import { CreateProjectDto, UpdateProjectDto, AssignProjectDto } from './dto';
+import { PaginationDto } from '../db/dto/pagination.dto';
+import { Project } from './entities/project.entity';
+import { Role } from '../auth/interface/role';
+import { Auth } from '../auth/decorators';
+
+
 @ApiTags('project')
+@ApiExtraModels(CreateProjectDto)
+@ApiExtraModels(UpdateProjectDto)
+@ApiExtraModels(AssignProjectDto)
 @Controller('project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a project' })
-  @ApiBody({
-    schema: {
-      example: { $ref: getSchemaPath(CreateProjectDto) },
-      type: 'JSON',
-    },
-  })
+  @ApiBody({ schema: { $ref: getSchemaPath(CreateProjectDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(CreateProjectDto) },
-      type: 'JSON',
-    },
+    schema: { $ref: getSchemaPath(CreateProjectDto) }
   })
   @ApiResponse({
     status: 403,
@@ -58,7 +54,7 @@ export class ProjectController {
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
-      items: { $ref: getSchemaPath(Project) },
+      items: { $ref: getSchemaPath(CreateProjectDto) },
       type: 'array',
     },
   })
@@ -77,10 +73,7 @@ export class ProjectController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(Project) },
-      type: 'JSON',
-    },
+    schema: { $ref: getSchemaPath(CreateProjectDto) }
   })
   @HttpCode(HttpStatus.OK)
   findOneById(@Param('id') id: string) {
@@ -95,18 +88,10 @@ export class ProjectController {
     description: 'The unique identifier of the project',
     required: true,
   })
-  @ApiBody({
-    schema: {
-      example: { $ref: getSchemaPath(UpdateProjectDto) },
-      type: 'JSON',
-    },
-  })
+  @ApiBody({ schema: { $ref: getSchemaPath(UpdateProjectDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(Project) },
-      type: 'JSON',
-    },
+    schema: { $ref: getSchemaPath(CreateProjectDto) }
   })
   @ApiResponse({
     status: 403,
@@ -132,10 +117,7 @@ export class ProjectController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(Project) },
-      type: 'JSON',
-    },
+    schema: { $ref: getSchemaPath(CreateProjectDto) }
   })
   @ApiResponse({
     status: 403,
@@ -168,7 +150,7 @@ export class ProjectController {
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
-      items: { $ref: getSchemaPath(Project) },
+      items: { $ref: getSchemaPath(CreateProjectDto) },
       type: 'array',
     },
   })
@@ -189,18 +171,10 @@ export class ProjectController {
     description: 'The unique identifier of the project',
     required: true,
   })
-  @ApiBody({
-    schema: {
-      example: { $ref: getSchemaPath(AssignProjectDto) },
-      type: 'JSON',
-    },
-  })
+  @ApiBody({ schema: { $ref: getSchemaPath(AssignProjectDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: {
-      example: { $ref: getSchemaPath(Project) },
-      type: 'JSON',
-    },
+    schema:  { $ref: getSchemaPath(CreateProjectDto) }
   })
   @ApiResponse({
     status: 403,
