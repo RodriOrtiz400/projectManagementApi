@@ -11,8 +11,19 @@ import {
   HttpStatus,
   HttpCode,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiExtraModels, ApiQuery, ApiTags, getSchemaPath } from '@nestjs/swagger';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger/dist/decorators';
+import {
+  ApiBearerAuth,
+  ApiExtraModels,
+  ApiQuery,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+} from '@nestjs/swagger/dist/decorators';
 
 import { ProjectService } from './project.service';
 import { CreateProjectDto, UpdateProjectDto, AssignProjectDto } from './dto';
@@ -20,7 +31,6 @@ import { PaginationDto } from '../db/dto/pagination.dto';
 import { Project } from './entities/project.entity';
 import { Role } from '../auth/interface/role';
 import { Auth } from '../auth/decorators';
-
 
 @ApiTags('project')
 @ApiExtraModels(CreateProjectDto)
@@ -35,11 +45,12 @@ export class ProjectController {
   @ApiBody({ schema: { $ref: getSchemaPath(CreateProjectDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateProjectDto) }
+    schema: { $ref: getSchemaPath(CreateProjectDto) },
   })
   @ApiResponse({
     status: 403,
-    description: 'Role allowed: "Project Manager". Your user does not have permissions to perform this action.',
+    description:
+      'Role allowed: "Project Manager". Your user does not have permissions to perform this action.',
   })
   @ApiBearerAuth('access_token')
   @HttpCode(HttpStatus.OK)
@@ -50,7 +61,7 @@ export class ProjectController {
 
   @Get()
   @ApiOperation({ summary: 'Get all projects' })
-  @ApiQuery({ schema:{ $ref: getSchemaPath(PaginationDto) } })
+  @ApiQuery({ schema: { $ref: getSchemaPath(PaginationDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
@@ -73,7 +84,7 @@ export class ProjectController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateProjectDto) }
+    schema: { $ref: getSchemaPath(CreateProjectDto) },
   })
   @HttpCode(HttpStatus.OK)
   findOneById(@Param('id') id: string) {
@@ -91,19 +102,17 @@ export class ProjectController {
   @ApiBody({ schema: { $ref: getSchemaPath(UpdateProjectDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateProjectDto) }
+    schema: { $ref: getSchemaPath(CreateProjectDto) },
   })
   @ApiResponse({
     status: 403,
-    description: 'Roles allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
+    description:
+      'Roles allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
   })
   @ApiBearerAuth('access_token')
   @HttpCode(HttpStatus.OK)
   @Auth(Role.Developer, Role.ProjectManager, Role.TeamLeader)
-  update(
-    @Param('id') id: string,
-    @Body() updateProjectDto: UpdateProjectDto
-  ) {
+  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectService.update(id, updateProjectDto);
   }
 
@@ -117,11 +126,12 @@ export class ProjectController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateProjectDto) }
+    schema: { $ref: getSchemaPath(CreateProjectDto) },
   })
   @ApiResponse({
     status: 403,
-    description: 'Roles allowed: "Project Manager", "Team Leader". Your user does not have permissions to perform this action.',
+    description:
+      'Roles allowed: "Project Manager", "Team Leader". Your user does not have permissions to perform this action.',
   })
   @ApiBearerAuth('access_token')
   @HttpCode(HttpStatus.OK)
@@ -131,9 +141,11 @@ export class ProjectController {
   }
 
   @Get(':userId/status/:status')
-  @ApiOperation({ summary: 'Get all projects assigned to a user with an specific status' })
+  @ApiOperation({
+    summary: 'Get all projects assigned to a user with an specific status',
+  })
   @ApiQuery({
-    schema:{ $ref: getSchemaPath(PaginationDto) }
+    schema: { $ref: getSchemaPath(PaginationDto) },
   })
   @ApiParam({
     name: 'userId',
@@ -157,13 +169,12 @@ export class ProjectController {
   findByUserAndStatus(
     @Query() params: PaginationDto,
     @Param('userId') userId: string,
-    @Param('status') status: string
+    @Param('status') status: string,
   ) {
     return this.projectService.findByUserAndStatus(userId, status, params);
   }
 
   @Put(':id/assign')
-
   @ApiOperation({ summary: 'Assign a project to a user' })
   @ApiParam({
     name: 'id',
@@ -174,15 +185,19 @@ export class ProjectController {
   @ApiBody({ schema: { $ref: getSchemaPath(AssignProjectDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema:  { $ref: getSchemaPath(CreateProjectDto) }
+    schema: { $ref: getSchemaPath(CreateProjectDto) },
   })
   @ApiResponse({
     status: 403,
-    description: 'Roles allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
+    description:
+      'Roles allowed: "Project Manager", "Team Leader", "Developer". Your user does not have permissions to perform this action.',
   })
   @ApiBearerAuth('access_token')
   @Auth(Role.ProjectManager)
-  assignProject(@Param('id') id: string, @Body() assignProject: AssignProjectDto) {
+  assignProject(
+    @Param('id') id: string,
+    @Body() assignProject: AssignProjectDto,
+  ) {
     return this.projectService.assignProject(id, assignProject);
   }
 }

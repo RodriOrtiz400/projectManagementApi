@@ -9,7 +9,6 @@ import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
@@ -20,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate( payload: JwtPayload ): Promise<User> {
+  async validate(payload: JwtPayload): Promise<User> {
     const { id } = payload;
 
     const user = this.userModel.findOne({ _id: id }).exec();

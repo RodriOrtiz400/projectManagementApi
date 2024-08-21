@@ -1,5 +1,10 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger/dist/decorators';
 
 import { AuthService } from './auth.service';
 import { CreateUserDto, CredentialsDto } from '../user/dto';
@@ -15,7 +20,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private emailService: EmailLoggerService,
-    ) {}
+  ) {}
 
   @Post('login')
   @ApiOperation({ summary: 'Login a user' })
@@ -38,7 +43,7 @@ export class AuthController {
   @ApiBody({ schema: { $ref: getSchemaPath(CreateUserDto) } })
   @ApiResponse({
     status: HttpStatus.OK,
-    schema: { $ref: getSchemaPath(CreateUserDto) }
+    schema: { $ref: getSchemaPath(CreateUserDto) },
   })
   @HttpCode(HttpStatus.OK)
   @Post('register')

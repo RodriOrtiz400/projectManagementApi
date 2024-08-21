@@ -14,9 +14,9 @@ export class AppController {
     status: HttpStatus.OK,
     schema: {
       example: {
-        project: "string",
-        hostaddress: "string",
-        processid: "number",
+        project: 'string',
+        hostaddress: 'string',
+        processid: 'number',
       },
       type: 'JSON',
     },
@@ -32,7 +32,7 @@ export class AppController {
     status: HttpStatus.OK,
     schema: {
       example: {
-        text: 'Data has been created successfully.'
+        text: 'Data has been created successfully.',
       },
       type: 'JSON',
     },

@@ -3,7 +3,14 @@ import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { PaginationDto } from '../../db/dto/pagination.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
-import { ApiExtraModels, ApiOperation, ApiQuery, ApiResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import {
+  ApiExtraModels,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { CreateUserDto } from './dto';
 
 @ApiTags('user')
@@ -15,23 +22,21 @@ export class UserController {
   @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiQuery({
-    schema:{
-      $ref: getSchemaPath(PaginationDto)
-    }
+    schema: {
+      $ref: getSchemaPath(PaginationDto),
+    },
   })
   @ApiResponse({
     status: HttpStatus.OK,
     schema: {
       type: 'array',
       items: {
-          $ref: getSchemaPath(CreateUserDto),
+        $ref: getSchemaPath(CreateUserDto),
       },
     },
   })
   @HttpCode(HttpStatus.OK)
-  findAll(
-    @Query() params: PaginationDto,
-  ): Promise<User[]> {
+  findAll(@Query() params: PaginationDto): Promise<User[]> {
     return this.userService.findAll(params);
   }
 }

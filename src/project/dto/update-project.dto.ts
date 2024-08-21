@@ -1,6 +1,13 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateProjectDto } from './create-project.dto';
-import { IsDate, IsEnum, IsMongoId, IsOptional, IsString, MinLength } from 'class-validator';
+import {
+  IsDate,
+  IsEnum,
+  IsMongoId,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Status } from '../../interfaces';
 
@@ -21,10 +28,10 @@ export class UpdateProjectDto extends PartialType(CreateProjectDto) {
   due_date?: Date;
 
   @IsString()
-  @IsEnum(Status,
-    {
-      message: 'Status must be one of the following: not_started, in_progress, completed',
-    })
+  @IsEnum(Status, {
+    message:
+      'Status must be one of the following: not_started, in_progress, completed',
+  })
   @ApiPropertyOptional({ example: 'not_started, in_progress, completed' })
   status: string;
 
